@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <CustomHeader />
+    <CustomHeader title="Cod3r - Base de Conhecimento" :hideToggle="false"/>
     <CustomMenu />
     <CustomContent />
     <CustomFooter />
@@ -8,10 +8,10 @@
 </template>
 
 <script setup>
-import CustomContent from '@/components/template/CustomContent.vue';
-import CustomFooter from '@/components/template/CustomFooter.vue';
-import CustomHeader from '@/components/template/CustomHeader.vue';
-import CustomMenu from '@/components/template/CustomMenu.vue';
+import CustomContent from "@/components/template/CustomContent.vue";
+import CustomFooter from "@/components/template/CustomFooter.vue";
+import CustomHeader from "@/components/template/CustomHeader.vue";
+import CustomMenu from "@/components/template/CustomMenu.vue";
 </script>
 
 <style>
@@ -32,9 +32,9 @@ body {
   grid-template-rows: 60px 1fr 40px;
   grid-template-columns: 300px 1fr;
 
-  grid-template-areas: 
-  "header header"
-  "menu content"
-  "menu footer";
+  grid-template-areas:
+    "header header"
+    "menu content"
+    "menu footer";
 }
 </style>

@@ -1,22 +1,18 @@
 <template>
-  <aside class="menu">
-
-  </aside>
+  <aside class="menu"></aside>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
- .menu {
+.menu {
   grid-area: menu;
   background: linear-gradient(to right, #232526, #414345);
 
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
- }
+}
 </style>
