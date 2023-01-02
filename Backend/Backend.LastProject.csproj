@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Compile Remove="ProjectExtends\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="ProjectExtends\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="ProjectExtends\**" />
+    <None Remove="Models\**" />
+    <None Remove="ProjectExtends\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="PublicUtility.CryptSecurity" Version="2.0.0" />
+    <PackageReference Include="PublicUtility.Extension" Version="2.0.3" />
+    <PackageReference Include="PublicUtility.Sql" Version="2.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Models\Models.csproj" />
+    <ProjectReference Include="ProjectExtends\ProjectExtends.csproj" />
+  </ItemGroup>
+
+</Project>
