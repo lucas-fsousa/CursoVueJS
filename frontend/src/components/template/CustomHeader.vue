@@ -4,26 +4,35 @@
       <font-awesome-icon :icon="icon" />
     </a>
     <h1 class="title">{{ title }}</h1>
+
+    <UserDropdown v-if="!hideUserDropdown"/>
   </header>
 </template>
 
 <script>
-
+import UserDropdown from '@/components/template/UserDropdown.vue';
 export default {
+  components: {
+    UserDropdown,
+    UserDropdown
+},
   props: {
     title: String,
     hideToggle: Boolean,
+    hideUserDropdown: Boolean
   },
   methods: {
-    toggleMenu(){
-      console.log('Toggle')
-    }
+    toggleMenu() {
+      this.$store.commit("toggleMenu");
+    },
   },
   computed: {
-    icon(){
-      return 'fa-solid fa-arrow-left'
-    }
-  }
+    icon() {
+      return this.$store.state.isMenuVisible
+        ? "fa-solid fa-arrow-left"
+        : "fa-solid fa-arrow-down";
+    },
+  },
 };
 </script>
 
@@ -53,7 +62,7 @@ export default {
 header.header > a.toggle {
   width: 60px;
   height: 100%;
-  color:#fff;
+  color: #fff;
   justify-self: flex-start;
   text-decoration: none;
   display: flex;
@@ -62,6 +71,6 @@ header.header > a.toggle {
 }
 
 header.header > a.toggle:hover {
- background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 </style>

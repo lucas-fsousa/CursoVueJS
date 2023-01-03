@@ -1,15 +1,22 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowLeft, faArrowDown } from '@fortawesome/free-solid-svg-icons'
-import store from './store'
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faArrowLeft, faArrowDown, faCogs, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import {} from '@fortawesome/free-regular-svg-icons'
+import store from "./store";
 
-library.add(faArrowLeft, faArrowDown)
-const app = createApp(App).use(store);
+// DEFINITIONS
+library.add(faArrowLeft, faArrowDown, faCogs, faSignOut);
+const app = createApp(App);
 
+// USING
+app.use(store);
 app.use(router);
-app.component('font-awesome-icon', FontAwesomeIcon)
 
+// COMPONENTS
+app.component("font-awesome-icon", FontAwesomeIcon);
+
+// MOUNT APPLICATION
 app.mount("#app");

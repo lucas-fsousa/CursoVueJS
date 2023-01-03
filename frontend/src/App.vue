@@ -1,17 +1,30 @@
 <template>
-  <div id="main">
-    <CustomHeader title="Cod3r - Base de Conhecimento" :hideToggle="false"/>
+  <div id="main" :class="{ 'hide-menu': !isMenuVisible }">
+    <CustomHeader title="Cod3r - Base de Conhecimento" :hideToggle="false" :hideUserDropdown="false"/>
     <CustomMenu />
     <CustomContent />
     <CustomFooter />
   </div>
 </template>
 
-<script setup>
+<script>
 import CustomContent from "@/components/template/CustomContent.vue";
 import CustomFooter from "@/components/template/CustomFooter.vue";
 import CustomHeader from "@/components/template/CustomHeader.vue";
 import CustomMenu from "@/components/template/CustomMenu.vue";
+import { mapState } from "vuex";
+
+export default {
+  components: {
+    CustomContent,
+    CustomFooter,
+    CustomHeader,
+    CustomMenu,
+  },
+  computed: {
+    ...mapState(["isMenuVisible"]),
+  },
+};
 </script>
 
 <style>
@@ -36,5 +49,11 @@ body {
     "header header"
     "menu content"
     "menu footer";
+}
+#main.hide-menu {
+  grid-template-areas:
+    "header header"
+    "content content"
+    "footer footer";
 }
 </style>
