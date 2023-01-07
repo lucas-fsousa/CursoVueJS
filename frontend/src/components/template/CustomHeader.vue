@@ -3,7 +3,7 @@
     <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
       <font-awesome-icon :icon="icon" />
     </a>
-    <h1 class="title">{{ title }}</h1>
+    <h1 class="title"><router-link to="/">{{ title }}</router-link></h1>
 
     <UserDropdown v-if="!hideUserDropdown"/>
   </header>
@@ -11,10 +11,12 @@
 
 <script>
 import UserDropdown from '@/components/template/UserDropdown.vue';
+import { RouterLink } from 'vue-router';
 export default {
   components: {
     UserDropdown,
-    UserDropdown
+    UserDropdown,
+    RouterLink
 },
   props: {
     title: String,
@@ -55,6 +57,10 @@ export default {
 }
 
 .title a {
+  color: #fff;
+  text-decoration: none;
+}
+.title a:hover {
   color: #fff;
   text-decoration: none;
 }
