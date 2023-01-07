@@ -17,51 +17,12 @@ namespace Backend.LastProject.Controllers {
     }
 
     [Authorize]
-    [HttpPost("{id?}")]
-    public async Task<IActionResult> Save([FromBody] ArticleInput request, [FromRoute] int id = 0) {
-      return await Task.Run(async Task<IActionResult> () => {
-        try {
-          if(!request.Name.IsFilled())
-            return BadRequest("Nome do artigo não informado");
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody] ArticleInput request, [FromRoute] int id) => await Save(request, id);
 
-          if(!request.Description.IsFilled())
-            return BadRequest("Descrição do artigo não informada");
-
-          if(!request.CategoryId.IsFilled() || request.CategoryId <= 0)
-            return BadRequest("ID da categoria não informado");
-
-          if(!request.UserId.IsFilled() || request.UserId <= 0)
-            return BadRequest("ID da usuário não informado");
-
-          if(!request.Content.IsFilled() || !request.Content.Any())
-            return BadRequest("Conteudo do artigo não informado");
-
-          var article = await _articleDB.FindByKeysAsync(keys: id);
-          if(id != 0 && article.IsFilled()) {
-            article.ImageUrl = request.ImageUrl;
-            article.CategoryId = request.CategoryId;
-            article.UserId = request.UserId;
-            article.Content = request.Content;
-            article.Description = request.Description;
-            article.Name = request.Name;
-
-            _articleDB.Update(article);
-            await _articleDB.CommitAsync();
-            return NoContent();
-
-          } else {
-            var result = await _articleDB.AddAsync(request);
-
-            await _articleDB.CommitAsync();
-            return Created("", new { Message = "CREATED OK", result.Id });
-          }
-
-        } catch(Exception ex) {
-          return InternalError("#ERROR# " + ex.Message);
-        }
-
-      });
-    }
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] ArticleInput request) => await Save(request);
 
     [Authorize("admin")]
     [HttpDelete("{id}")]
@@ -128,6 +89,50 @@ namespace Backend.LastProject.Controllers {
         } catch(Exception ex) {
           return InternalError(ex.Message);
         }
+      });
+    }
+    private async Task<IActionResult> Save([FromBody] ArticleInput request, [FromRoute] int id = 0) {
+      return await Task.Run(async Task<IActionResult> () => {
+        try {
+          if(!request.Name.IsFilled())
+            return BadRequest("Nome do artigo não informado");
+
+          if(!request.Description.IsFilled())
+            return BadRequest("Descrição do artigo não informada");
+
+          if(!request.CategoryId.IsFilled() || request.CategoryId <= 0)
+            return BadRequest("ID da categoria não informado");
+
+          if(!request.UserId.IsFilled() || request.UserId <= 0)
+            return BadRequest("ID da usuário não informado");
+
+          if(!request.Content.IsFilled() || !request.Content.Any())
+            return BadRequest("Conteudo do artigo não informado");
+
+          var article = await _articleDB.FindByKeysAsync(keys: id);
+          if(id != 0 && article.IsFilled()) {
+            article.ImageUrl = request.ImageUrl;
+            article.CategoryId = request.CategoryId;
+            article.UserId = request.UserId;
+            article.Content = request.Content;
+            article.Description = request.Description;
+            article.Name = request.Name;
+
+            _articleDB.Update(article);
+            await _articleDB.CommitAsync();
+            return NoContent();
+
+          } else {
+            var result = await _articleDB.AddAsync(request);
+
+            await _articleDB.CommitAsync();
+            return Created("", new { Message = "CREATED OK", result.Id });
+          }
+
+        } catch(Exception ex) {
+          return InternalError("#ERROR# " + ex.Message);
+        }
+
       });
     }
 

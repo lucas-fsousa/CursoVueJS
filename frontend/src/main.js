@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faArrowLeft, faArrowDown, faCogs, faSignOut, faHouseUser, faFolder, faFile, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowDown, faCogs, faSignOut, faHouseUser, faFolder, faFile, faUser, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { baseApiUrl } from "./global";
 import App from "./App.vue";
 import router from "./router";
@@ -11,13 +11,13 @@ import store from "./store";
 import axios from 'axios'
 
 // DEFINITIONS
-library.add(faArrowLeft, faArrowDown, faCogs, faSignOut, faHouseUser, faFolder, faUser, faFile);
+library.add(faArrowLeft, faArrowDown, faCogs, faSignOut, faHouseUser, faFolder, faUser, faFile, faTrash, faEdit);
 const app = createApp(App);
 const http = axios.create({
   baseURL: baseApiUrl,
   //temp header
   headers: {
-    authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJpZCI6IjIiLCJuYmYiOjE2NzMwNTQyMzIsImV4cCI6MTY3MzY1OTAzMiwiaWF0IjoxNjczMDU0MjMyfQ.3-eCLXnvCUEJDvk0pJWF7WcwN2aFFoqrJ1p3_6ktI6g'
+    authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtIiwiaWQiOiI1IiwiYWRtaW4iOnRydWUsIm5iZiI6MTY3MzA1NzkzMCwiZXhwIjoxNjczNjYyNzMwLCJpYXQiOjE2NzMwNTc5MzB9.5nfmqACZR1TFhPqIZYzTC_SuV0cfS76VZ6_skWHUpUo'
   }
 })
 

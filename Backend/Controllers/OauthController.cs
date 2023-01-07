@@ -59,7 +59,7 @@ namespace Backend.LastProject.Controllers {
         Name = signinInput.Name
       };
 
-      return await new UserController(_userRepository, null).Save(userParse);
+      return await new UserController(_userRepository, null).Create(userParse);
     }
 
     private IActionResult InternalError(object value) => StatusCode(500, value);

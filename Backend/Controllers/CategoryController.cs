@@ -18,6 +18,14 @@ namespace Backend.LastProject.Controllers {
     }
 
     [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody] CategoryInput request, [FromRoute] int id) => await Save(request, id);
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CategoryInput request) => await Save(request);
+
+    [Authorize]
     [HttpGet("{id?}")]
     public async Task<IActionResult> Get([FromRoute] int id = 0) {
       return await Task.Run(async Task<IActionResult> () => {
@@ -42,9 +50,7 @@ namespace Backend.LastProject.Controllers {
       });
     }
 
-    [Authorize]
-    [HttpPost("{id?}")]
-    public async Task<IActionResult> Save([FromBody] CategoryInput request, [FromRoute] int id = 0) {
+    private async Task<IActionResult> Save([FromBody] CategoryInput request, [FromRoute] int id = 0) {
       return await Task.Run(async Task<IActionResult> () => {
         try {
           if(!request.Name.IsFilled())
@@ -117,7 +123,7 @@ namespace Backend.LastProject.Controllers {
           return InternalError(ex.Message);
         }
       });
-      
+
     }
 
     private IActionResult InternalError(object value) => StatusCode(500, value);
@@ -140,7 +146,7 @@ namespace Backend.LastProject.Controllers {
     }
 
     private static IList<CategoryTree> ToTree(IEnumerable<CategoryDefault> categories, IList<CategoryTree> tree = null) {
-      if(!tree.IsFilled()) { 
+      if(!tree.IsFilled()) {
         tree = categories
           .Select(x => new CategoryTree(x.Id, x.Name, x.ParentId, x.Path, null))
           .Where(x => x.ParentId == null)

@@ -18,6 +18,14 @@ namespace Backend.LastProject.Controllers {
       _articleDB = articleDB;
     }
 
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody] UserInput request, [FromRoute] int id) => await Save(request, id);
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] UserInput request) => await Save(request);
+
     [Authorize("admin")]
     [HttpGet("{id?}")]
     public async Task<IActionResult> Get([FromRoute] int id = 0) {
@@ -36,7 +44,7 @@ namespace Backend.LastProject.Controllers {
 
           //return Ok(users.Select(x => new { x.Id, x.Name, x.Email, x.Admin }).ToList());
 
-          return Ok(users.Select(u => FilterUserResponse(u)).ToList());
+          return Ok(users.OrderBy(x=> x.Id).Select(u => FilterUserResponse(u)).ToList());
         } catch(Exception ex) {
 
           return InternalError("#ERROR# " + ex.Message);
@@ -44,9 +52,7 @@ namespace Backend.LastProject.Controllers {
       });
     }
 
-    [Authorize("admin")]
-    [HttpPost("{id?}")]
-    public async Task<IActionResult> Save([FromBody] UserInput request, [FromRoute] int id = 0) {
+    private async Task<IActionResult> Save([FromBody] UserInput request, [FromRoute] int id = 0) {
       return await Task.Run(async Task<IActionResult> () => {
         try {
           if(!request.Name.IsFilled())
