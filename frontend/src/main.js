@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faArrowLeft, faArrowDown, faCogs, faSignOut, faHouseUser, faFolder, faFile, faUser, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { baseApiUrl } from "./global";
+import { baseApiUrl, showError, showSuccess } from "./global";
 import App from "./App.vue";
 import router from "./router";
 import PageTitle from "@/components/template/PageTitle.vue"
@@ -23,10 +23,12 @@ const http = axios.create({
 
 // INJECTION
 app.provide('$http', http)
+app.provide('$showError', showError)
+app.provide('$showSuccess', showSuccess)
 
 // USING
 app.use(store)
-  .use(router);
+  .use(router)
 
 // COMPONENTS
 app.component("font-awesome-icon", FontAwesomeIcon)
