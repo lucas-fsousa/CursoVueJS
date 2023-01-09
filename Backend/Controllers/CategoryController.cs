@@ -30,7 +30,7 @@ namespace Backend.LastProject.Controllers {
     public async Task<IActionResult> Get([FromRoute] int id = 0) {
       return await Task.Run(async Task<IActionResult> () => {
         try {
-          if(id <= 0)
+          if(id < 0)
             return BadRequest("ID inválido");
 
           if(id == 0) {

@@ -46,7 +46,6 @@
 
     <hr>
 
-
     <table class="table table-hover table-bordered table-striped">
       <thead>
         <tr>

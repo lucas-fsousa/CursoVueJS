@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace Models {
   public class CategoryInput {
     public string? Name { get; set; }
-    public int SubCategoryId { get; set; }
+    public int? SubCategoryId { get; set; }
   }
 }
