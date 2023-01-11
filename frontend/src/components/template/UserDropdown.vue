@@ -3,24 +3,29 @@
     <div class="user-button">
       <span class="d-none d-sm-block">{{ user.name }}</span>
       <div class="user-dropdown-img">
-        <img src="@/assets/imgs/user-img.jpg" alt="user-image">
+        <img src="@/assets/imgs/user-img.jpg" alt="user-image" />
       </div>
-      <font-awesome-icon icon="fa-solid fa-arrow-down"/>
+      <font-awesome-icon icon="fa-solid fa-arrow-down" />
     </div>
     <div class="user-dropdown-content">
-      <router-link to="/admin"><font-awesome-icon icon="fa-solid fa-cogs" /> Administração</router-link>
-      <router-link to="/"><font-awesome-icon icon="fa-solid fa-sign-out" /> Sair</router-link>
+      <router-link to="/admin"
+        ><font-awesome-icon icon="fa-solid fa-cogs" />
+        Administração</router-link
+      >
+      <router-link to="/"
+        ><font-awesome-icon icon="fa-solid fa-sign-out" /> Sair</router-link
+      >
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(['user'])
-  }
-}
+    ...mapState(["user"]),
+  },
+};
 </script>
 
 <style>
@@ -36,7 +41,7 @@ export default {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 10px;
   z-index: 1;
-  
+
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -54,7 +59,7 @@ export default {
 .user-button {
   display: flex;
   align-items: center;
-  color: #FFF;
+  color: #fff;
   font-weight: 100;
   height: 100%;
   padding: 0px 20px;
@@ -80,7 +85,7 @@ export default {
 }
 
 .user-dropdown-content a:hover {
-  background-color: #EDEDED;
+  background-color: #ededed;
   border-radius: 5px;
 }
 </style>

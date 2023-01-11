@@ -45,25 +45,47 @@ namespace Backend.LastProject.Controllers {
     }
 
     [Authorize]
-    [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int count) {
+    [HttpGet("{id?}")]
+    public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int count, [FromRoute] int id = 0) {
       return await Task.Run(async Task<IActionResult>() => {
+        IEnumerable<Article> listPage = new List<Article>();
         try {
-          if(page <= 0)
-            return BadRequest("Pagina inválida.");
+          if(id > 0) {
+            var result = await _articleDB.GetAllAsync(x=> x.Id == id, join: "User, Category");
+            if(result.IsFilled()) { 
+              var article = result.First();
 
-          if(count <= 0)
-            return BadRequest("Quantidade inválida.");
+              return Ok(new { 
+                article.Id, 
+                article.Name, 
+                article.Description,
+                article.Content,
+                Category = article.Category.Id, 
+                Author = article.User.Id
+              });
+            }
+          } else {
+            if(id < 0)
+              return BadRequest("Id de artigo inválido");
 
-          var skipCount = (page - 1) * count;
-          var listPage = await _articleDB.GetAllAsync(take: count, skip: skipCount, join: "User, Category");
+            if(page <= 0)
+              return BadRequest("Pagina inválida.");
+
+            if(count <= 0)
+              return BadRequest("Quantidade inválida.");
+
+            var skipCount = (page - 1) * count;
+            listPage = await _articleDB.GetAllAsync(take: count, skip: skipCount, join: "User, Category");
+          }
+
           var propsToReturn = listPage
           .Select(x => new {
             x.Id,
             x.Name,
             x.Description,
             Category = x.Category.Name,
-            Author = x.User.Name
+            Author = x.User.Name,
+            x.ImageUrl
           });
 
           return Ok(new { Page = page, Count = count, Data = propsToReturn });
@@ -91,6 +113,7 @@ namespace Backend.LastProject.Controllers {
         }
       });
     }
+
     private async Task<IActionResult> Save([FromBody] ArticleInput request, [FromRoute] int id = 0) {
       return await Task.Run(async Task<IActionResult> () => {
         try {

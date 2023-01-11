@@ -1,7 +1,7 @@
 <template>
   <div class="stat">
     <div class="stat-icon" :style="style">
-      <font-awesome-icon :icon="icon"/>
+      <font-awesome-icon :icon="icon" />
     </div>
     <div class="stat-info">
       <span class="stat-title">{{ title }}</span>
@@ -16,14 +16,14 @@ export default {
     icon: String,
     title: String,
     value: Number,
-    color: String
+    color: String,
   },
   computed: {
     style() {
-      return `color: ${(this.color || '#000')}`
-    }
-  }
-}
+      return `color: ${this.color || "#000"}`;
+    },
+  },
+};
 </script>
 
 <style>
@@ -33,10 +33,10 @@ export default {
   border-radius: 8px;
   margin-right: 20px;
   margin-bottom: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 20px;
-  border: 1px solid rgba(0,0,0, 0.2);
-  box-shadow: 0 1px 5px rgba(0,0,0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .stat-icon {
@@ -56,7 +56,7 @@ export default {
 }
 
 .stat-title {
-  font-size: 1.2rem
+  font-size: 1.2rem;
 }
 
 .stat-value {

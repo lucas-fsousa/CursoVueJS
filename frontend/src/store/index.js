@@ -4,9 +4,9 @@ export default createStore({
   state: {
     isMenuVisible: true,
     user: {
-      name: 'Usuário Mock',
-      email: 'emailmock@mock.com'
-    }
+      name: "Usuário Mock",
+      email: "emailmock@mock.com",
+    },
   },
   getters: {},
   mutations: {

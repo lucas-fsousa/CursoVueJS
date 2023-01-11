@@ -2,7 +2,7 @@
   <div class="page-title">
     <h1><font-awesome-icon :icon="icon" v-if="icon" />{{ main }}</h1>
     <h2>{{ sub }}</h2>
-    <hr>
+    <hr />
   </div>
 </template>
 
@@ -11,9 +11,9 @@ export default {
   props: {
     icon: String,
     main: String,
-    sub: String
-  }
-}
+    sub: String,
+  },
+};
 </script>
 
 <style>

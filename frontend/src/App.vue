@@ -1,6 +1,10 @@
 <template>
   <div id="main" :class="{ 'hide-menu': !isMenuVisible }">
-    <CustomHeader title="Cod3r - Base de Conhecimento" :hideToggle="false" :hideUserDropdown="false"/>
+    <CustomHeader
+      title="Cod3r - Base de Conhecimento"
+      :hideToggle="false"
+      :hideUserDropdown="false"
+    />
     <CustomMenu />
     <CustomContent />
     <CustomFooter />
