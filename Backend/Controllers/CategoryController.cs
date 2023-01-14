@@ -149,7 +149,7 @@ namespace Backend.LastProject.Controllers {
     }
 
     private static IList<CategoryTree> ToTree(IEnumerable<CategoryDefault> categories, IList<CategoryTree> tree = null) {
-      if(!tree.IsFilled()) {
+      if(tree == null) {
         tree = categories
           .Select(x => new CategoryTree(x.Id, x.Name, x.ParentId, x.Path, null))
           .Where(x => x.ParentId == null)

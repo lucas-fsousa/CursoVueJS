@@ -14,6 +14,7 @@ import {
   faUser,
   faTrash,
   faEdit,
+  faSearch
 } from "@fortawesome/free-solid-svg-icons";
 import { baseApiUrl, showError, showSuccess, showMessage } from "./global";
 import { QuillEditor } from "@vueup/vue-quill";
@@ -39,7 +40,8 @@ library.add(
   faFile,
   faFileExport,
   faTrash,
-  faEdit
+  faEdit,
+  faSearch
 );
 const app = createApp(App);
 const http = axios.create({
@@ -47,7 +49,7 @@ const http = axios.create({
   //temp header
   headers: {
     authorization:
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtIiwiaWQiOiI1IiwiYWRtaW4iOnRydWUsIm5iZiI6MTY3MzA1NzkzMCwiZXhwIjoxNjczNjYyNzMwLCJpYXQiOjE2NzMwNTc5MzB9.5nfmqACZR1TFhPqIZYzTC_SuV0cfS76VZ6_skWHUpUo",
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtIiwiaWQiOiI1IiwiYWRtaW4iOnRydWUsIm5iZiI6MTY3MzY2MzYxMCwiZXhwIjoxNjc0MjY4NDEwLCJpYXQiOjE2NzM2NjM2MTB9.w8mNsDgXYV_jThMOBXc0f-YwB0CKkeB43S4fj1C4_b0",
   },
 });
 
@@ -61,11 +63,10 @@ app.provide("$http", http)
 app.use(store).use(router);
 
 // COMPONENTS
-app
-  .component("font-awesome-icon", FontAwesomeIcon)
+app.component("font-awesome-icon", FontAwesomeIcon)
   .component("PageTitle", PageTitle)
   .component("ShowView", ShowView)
-  .component("QuillEditor", QuillEditor);
+  .component("QuillEditor", QuillEditor)
 
 // MOUNT APPLICATION
 app.mount("#app");

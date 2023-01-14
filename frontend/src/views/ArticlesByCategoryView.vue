@@ -3,7 +3,9 @@
     <PageTitle :main="category.name" sub="Categoria" icon="fa-solid fa-folder-blank" />
 
     <ul>
-      <li v-for="art in articles" :key="art.id">{{ art.name }}</li>
+      <li v-for="art in articles" :key="art.id">
+        <ArticleItem :article="art" />
+      </li>
     </ul>
 
     <div class="load-more" v-if="loadMore">
@@ -15,11 +17,12 @@
 
 <script>
 import PageTitle from '@/components/template/PageTitle.vue'
+import ArticleItem from '@/components/ArticleItem.vue'
 
 export default {
   inject: ["$http", "$showError", "$showSuccess", "$showMessage"],
   components: {
-    PageTitle
+    PageTitle, ArticleItem
   },
   data() {
     return {
