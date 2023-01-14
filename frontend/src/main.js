@@ -8,18 +8,23 @@ import {
   faSignOut,
   faHouseUser,
   faFolder,
+  faFolderBlank,
   faFile,
+  faFileExport,
   faUser,
   faTrash,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-import { baseApiUrl, showError, showSuccess } from "./global";
+import { baseApiUrl, showError, showSuccess, showMessage } from "./global";
+import { QuillEditor } from "@vueup/vue-quill";
 import App from "./App.vue";
 import router from "./router";
 import PageTitle from "@/components/template/PageTitle.vue";
 import ShowView from "@/components/ShowView.vue";
 import store from "./store";
 import axios from "axios";
+
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 // DEFINITIONS
 library.add(
@@ -29,8 +34,10 @@ library.add(
   faSignOut,
   faHouseUser,
   faFolder,
+  faFolderBlank,
   faUser,
   faFile,
+  faFileExport,
   faTrash,
   faEdit
 );
@@ -45,9 +52,10 @@ const http = axios.create({
 });
 
 // INJECTION
-app.provide("$http", http);
-app.provide("$showError", showError);
-app.provide("$showSuccess", showSuccess);
+app.provide("$http", http)
+  .provide("$showError", showError)
+  .provide("$showSuccess", showSuccess)
+  .provide("$showMessage", showMessage)
 
 // USING
 app.use(store).use(router);
@@ -56,7 +64,8 @@ app.use(store).use(router);
 app
   .component("font-awesome-icon", FontAwesomeIcon)
   .component("PageTitle", PageTitle)
-  .component("ShowView", ShowView);
+  .component("ShowView", ShowView)
+  .component("QuillEditor", QuillEditor);
 
 // MOUNT APPLICATION
 app.mount("#app");

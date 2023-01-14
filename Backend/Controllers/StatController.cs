@@ -8,12 +8,16 @@ namespace Backend.LastProject.Controllers {
   [Route("stat")]
   [ApiController]
   public class StatController: ControllerBase {
+    private readonly IConfiguration _configuration;
+    public StatController(IConfiguration configuration) {
+      _configuration = configuration;
+    }
 
     [HttpGet]
     [Authorize]
     public async ValueTask<IActionResult> Get() {
       return await Task.Run(IActionResult () => {
-        var client = NSQL.MongoDB.GetConn("mongodb://devdata:c3NBqo7a@192.168.236.154:27018/?authSource=GeralDatabase");
+        var client = NSQL.MongoDB.GetConn(_configuration.GetConnectionString("mongodb"));
         client.LoadDataAndCollection("GeralDatabase", "stat");
         var lastUpdate = client.GetAllFromCollection<Stat>().OrderByDescending(x => x.CreatedAt).FirstOrDefault();
         if(lastUpdate.IsFilled())

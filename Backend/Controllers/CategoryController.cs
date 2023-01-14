@@ -42,6 +42,9 @@ namespace Backend.LastProject.Controllers {
           }
 
           var category = await _categoryDB.FindByKeysAsync(keys: id);
+          if(!category.IsFilled())
+            return NotFound("Categoria não encontrada");
+
           return Ok(category);
         } catch(Exception ex) {
 

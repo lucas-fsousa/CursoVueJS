@@ -47,36 +47,36 @@ namespace Backend.LastProject.Controllers {
     [Authorize]
     [HttpGet("{id?}")]
     public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int count, [FromRoute] int id = 0) {
-      return await Task.Run(async Task<IActionResult>() => {
-        IEnumerable<Article> listPage = new List<Article>();
+      return await Task.Run(async Task<IActionResult> () => {
         try {
           if(id > 0) {
-            var result = await _articleDB.GetAllAsync(x=> x.Id == id, join: "User, Category");
-            if(result.IsFilled()) { 
+            var result = await _articleDB.GetAllAsync(x => x.Id == id, join: "User, Category");
+            if(result.IsFilled()) {
               var article = result.First();
 
-              return Ok(new { 
-                article.Id, 
-                article.Name, 
+              return Ok(new {
+                article.Id,
+                article.Name,
+                article.ImageUrl,
                 article.Description,
                 article.Content,
-                Category = article.Category.Id, 
-                Author = article.User.Id
+                CategoryId = article.Category.Id,
+                UserId = article.User.Id
               });
             }
-          } else {
-            if(id < 0)
-              return BadRequest("Id de artigo inválido");
-
-            if(page <= 0)
-              return BadRequest("Pagina inválida.");
-
-            if(count <= 0)
-              return BadRequest("Quantidade inválida.");
-
-            var skipCount = (page - 1) * count;
-            listPage = await _articleDB.GetAllAsync(take: count, skip: skipCount, join: "User, Category");
           }
+
+          if(id < 0)
+            return BadRequest("Id de artigo inválido");
+
+          if(page <= 0)
+            return BadRequest("Pagina inválida.");
+
+          if(count <= 0)
+            return BadRequest("Quantidade inválida.");
+
+          var skipCount = (page - 1) * count;
+          var listPage = await _articleDB.GetAllAsync(take: count, skip: skipCount, join: "User, Category");
 
           var propsToReturn = listPage
           .Select(x => new {
@@ -92,7 +92,7 @@ namespace Backend.LastProject.Controllers {
         } catch(Exception ex) {
           return InternalError(ex.Message);
         }
-      }); 
+      });
     }
 
     [Authorize]
@@ -103,11 +103,14 @@ namespace Backend.LastProject.Controllers {
           if(page <= 0)
             return BadRequest("Pagina inválida.");
 
-          var queryResult = await _articleDB.GetAllAsync(x => x.CategoryId == id, o=> o.OrderBy(x => x.Id), "User", take: count, skip: (page - 1) * count);
+          if(id <= 0)
+            return BadRequest("Id de categoria inválido");
 
-          var response = queryResult.Select(x => new { x.Id, x.Name, x.Description, x.ImageUrl, Author = x.User.Name } );
+          var queryResult = await _articleDB.GetAllAsync(x => x.CategoryId == id, o => o.OrderBy(x => x.Id), "User", take: count, skip: (page - 1) * count);
 
-          return Ok(new {CurrentPage = page, Count = count, Data = response});
+          var response = queryResult.Select(x => new { x.Id, x.Name, x.Description, x.ImageUrl, Author = x.User.Name });
+
+          return Ok(new { CurrentPage = page, Count = count, Data = response });
         } catch(Exception ex) {
           return InternalError(ex.Message);
         }
@@ -129,7 +132,7 @@ namespace Backend.LastProject.Controllers {
           if(!request.UserId.IsFilled() || request.UserId <= 0)
             return BadRequest("ID da usuário não informado");
 
-          if(!request.Content.IsFilled() || !request.Content.Any())
+          if(!request.Content.IsFilled())
             return BadRequest("Conteudo do artigo não informado");
 
           var article = await _articleDB.FindByKeysAsync(keys: id);
