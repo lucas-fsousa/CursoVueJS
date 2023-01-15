@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AdminView from "../views/AdminView.vue";
-import ArticlesByCategory from "../views/ArticlesByCategoryView.vue"
-import ArticleById from "../views/ArticleByIdView.vue"
+import ArticlesByCategory from "../views/ArticlesByCategoryView.vue";
+import ArticleById from "../views/ArticleByIdView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,14 +20,13 @@ const router = createRouter({
     {
       path: "/categories/:id/articles",
       name: "articlesByCategory",
-      component: ArticlesByCategory
+      component: ArticlesByCategory,
     },
     {
       path: "/articles/:id",
       name: "articleById",
-      component: ArticleById
-     
-    }
+      component: ArticleById,
+    },
   ],
 });
 

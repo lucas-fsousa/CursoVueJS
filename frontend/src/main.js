@@ -14,7 +14,7 @@ import {
   faUser,
   faTrash,
   faEdit,
-  faSearch
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { baseApiUrl, showError, showSuccess, showMessage } from "./global";
 import { QuillEditor } from "@vueup/vue-quill";
@@ -54,19 +54,21 @@ const http = axios.create({
 });
 
 // INJECTION
-app.provide("$http", http)
+app
+  .provide("$http", http)
   .provide("$showError", showError)
   .provide("$showSuccess", showSuccess)
-  .provide("$showMessage", showMessage)
+  .provide("$showMessage", showMessage);
 
 // USING
 app.use(store).use(router);
 
 // COMPONENTS
-app.component("font-awesome-icon", FontAwesomeIcon)
+app
+  .component("font-awesome-icon", FontAwesomeIcon)
   .component("PageTitle", PageTitle)
   .component("ShowView", ShowView)
-  .component("QuillEditor", QuillEditor)
+  .component("QuillEditor", QuillEditor);
 
 // MOUNT APPLICATION
 app.mount("#app");

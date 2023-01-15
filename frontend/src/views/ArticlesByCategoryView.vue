@@ -9,20 +9,32 @@
     </ul>
 
     <div class="load-more" v-if="loadMore">
-      <button class="btn btn-lg btn-outline-primary" @click="getArticles">Carregar Mais Artigos</button>
+      <button class="btn btn-lg btn-outline-primary" @click="getArticles">
+        Carregar Mais Artigos
+      </button>
     </div>
-
   </div>
 </template>
 
 <script>
-import PageTitle from '@/components/template/PageTitle.vue'
-import ArticleItem from '@/components/ArticleItem.vue'
+import PageTitle from "@/components/template/PageTitle.vue";
+import ArticleItem from "@/components/ArticleItem.vue";
 
 export default {
   inject: ["$http", "$showError", "$showSuccess", "$showMessage"],
   components: {
-    PageTitle, ArticleItem
+    PageTitle,
+    ArticleItem,
+  },
+  watch: {
+    $route(to) {
+      this.category.id = to.params.id
+      this.articles = []
+      this.page = 1
+      this.loadMore = true
+      this.getCategory();
+      this.getArticles();
+    }
   },
   data() {
     return {
@@ -30,36 +42,37 @@ export default {
       articles: [],
       page: 1,
       loadMore: true
-    }
+    };
   },
   methods: {
     getCategory() {
       this.category.id = this.$route.params.id
-      this.$http.get(`/category/${this.category.id}`)
-        .then(res => {
-          this.category = res.data
-        }).catch(e => {
-          this.$router.push('/')
-          setTimeout(() => this.$showError(e), 500)
+      this.$http
+        .get(`/category/${this.category.id}`)
+        .then((res) => {
+          this.category = res.data;
         })
+        .catch((e) => {
+          this.$router.push("/");
+          setTimeout(() => this.$showError(e), 500);
+        });
     },
     getArticles() {
       this.$http.get(`/article/byCategoryId/${this.category.id}?page=${this.page}&count=3`)
-        .then(res => {
-          this.articles = this.articles.concat(res.data.data)
-          this.page++
-          console.log(res.data)
+        .then((res) => {
+          this.articles = this.articles.concat(res.data.data);
+          this.page++;
 
-          if (res.data.data.length === 0) this.loadMore = false
-
-        }).catch(e => this.$showError(e))
-    }
+          if (res.data.data.length === 0) this.loadMore = false;
+        })
+        .catch((e) => this.$showError(e));
+    },
   },
   mounted() {
-    this.getCategory()
-    this.getArticles()
+    this.getCategory();
+    this.getArticles();
   }
-}
+};
 </script>
 
 <style>

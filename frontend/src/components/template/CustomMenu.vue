@@ -1,30 +1,39 @@
 <template>
   <aside class="menu" v-show="isMenuVisible">
     <div class="menu-filter">
-      <label class="search-icon" for="filter-input"><font-awesome-icon icon="fa-solid fa-search" /></label>
-      <input id="filter-input" type="text" placeholder="Digite para filtar..." class="filter-field">
+      <label class="search-icon" for="filter-input"
+        ><font-awesome-icon icon="fa-solid fa-search"
+      /></label>
+      <input
+        id="filter-input"
+        type="text"
+        placeholder="Digite para filtar..."
+        class="filter-field"
+        v-model="currentMenuFilter"
+      />
     </div>
-    <!-- <MenuTree :dataView="treeData" /> -->
-    <TesteTree />
+    <MenuTree :dataView="treeData" />
   </aside>
 </template>
 
 <script>
-import MenuTree from "@/components/MenuTree.vue"
-import TesteTree from "@/components/TesteTree.vue"
+import MenuTree from "@/components/MenuTree.vue";
 
 import { mapState } from "vuex";
 export default {
   components: {
-    MenuTree, TesteTree
+    MenuTree
+  },
+  watch: {
+    currentMenuFilter(newValue, oldValue){
+      this.$store.commit("updateMenuFilter", newValue);
+    }
   },
   data() {
     return {
       treeData: this.getData(),
-      treeOptions: {
-        propertyNames: { 'text': 'name' }
-      }
-    }
+      currentMenuFilter: ''
+    };
   },
   computed: {
     ...mapState(["isMenuVisible"]),
@@ -32,9 +41,9 @@ export default {
   inject: ["$http"],
   methods: {
     getData() {
-      return this.$http.get('/tree').then(res => res.data)
-    }
-  }
+      return this.$http.get("/tree").then((res) => res.data);
+    },
+  },
 };
 </script>
 
@@ -50,13 +59,27 @@ export default {
 
 .menu a,
 menu a:hover {
-  color: #FFF;
+  color: #fff;
   text-decoration: none;
 }
 
-.menu .tree-node.selected>.tree-content,
-.menu .tree-node .tree-content:hover {
-  background-color: rgba(255, 255, 255, 0.2)
+.tree-node {
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  margin-left: 0px;
+  margin-right: 10px;
+  border-radius: 4px;
+  padding-left: 5px;
+}
+
+.tree-node:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.main-tree {
+  margin-left: 0px;
+  padding-left: 10px;
 }
 
 .tree-arrow.has-chield {
@@ -67,7 +90,7 @@ menu a:hover {
   background-color: transparent;
   font-size: 25px;
   display: flex;
-  color: #AAA;
+  color: #aaa;
   align-self: center;
   margin-right: 5px;
 }
@@ -79,11 +102,11 @@ menu a:hover {
 
   margin: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #AAA;
+  border-bottom: 1px solid #aaa;
 }
 
 .menu input {
-  color: #CCC;
+  color: #ccc;
   font-size: 1.3rem;
   border: 0px;
   outline: 0px;

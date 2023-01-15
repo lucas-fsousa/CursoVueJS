@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     isMenuVisible: true,
+    currentMenuFilter: '',
     user: {
       name: "Usuário Mock",
       email: "emailmock@mock.com",
@@ -17,6 +18,9 @@ export default createStore({
         state.isMenuVisible = isVisible;
       }
     },
+    updateMenuFilter(state, value) {
+      state.currentMenuFilter = value
+    }
   },
   actions: {},
   modules: {},

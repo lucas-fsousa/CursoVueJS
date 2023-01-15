@@ -2,9 +2,20 @@
   <div class="article-item">
     <router-link :to="{ name: 'articleById', params: { id: article.id } }">
       <div class="article-item-image d-none d-sm-block">
-        <img v-if="article.imageUrl" :src="article.imageUrl" height="150" width="150" alt="Article" />
-        <img v-else src="https://blog.even3.com.br/wp-content/uploads/2021/09/imagemdestaque_artigoscientificos.png"
-          height="150" width="150" alt="Article" />
+        <img
+          v-if="article.imageUrl"
+          :src="article.imageUrl"
+          height="150"
+          width="150"
+          alt="Article"
+        />
+        <img
+          v-else
+          src="https://blog.even3.com.br/wp-content/uploads/2021/09/imagemdestaque_artigoscientificos.png"
+          height="150"
+          width="150"
+          alt="Article"
+        />
       </div>
 
       <div class="article-item-info">
@@ -20,15 +31,15 @@
 
 <script setup>
 defineProps({
-  article: Object
-})
+  article: Object,
+});
 </script>
 
 <style>
 .article-item {
   border-radius: 8px;
   margin-bottom: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 20px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
@@ -48,7 +59,7 @@ defineProps({
 .article-item-image {
   padding-right: 20px;
   margin-right: 20px;
-  border-right: 1px solid #AAA;
+  border-right: 1px solid #aaa;
 }
 
 .article-item-image img {

@@ -11,17 +11,16 @@ const showMessage = (e, options) => {
   if (!options) {
     options = { ...toastOptions };
   }
-  toaster.info(e, options)
-}
+  toaster.info(e, options);
+};
 
 const showError = (e, options) => {
   if (!options) {
     options = { ...toastOptions };
   }
 
-  if (e && e.response && e.response.data) {
+  if (e && e.response && e.message && e.response.data) {
     toaster.error(e.response.data, options);
-    console.log('1')
   } else if (typeof e === "string") {
     toaster.error(e, options);
   } else if (e && e.message) {
