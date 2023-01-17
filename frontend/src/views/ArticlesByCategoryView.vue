@@ -1,10 +1,6 @@
 <template>
   <div class="article-by-category">
-    <PageTitle
-      :main="category.name"
-      sub="Categoria"
-      icon="fa-solid fa-folder-blank"
-    />
+    <PageTitle :main="category.name" sub="Categoria" icon="fa-solid fa-folder-blank" />
 
     <ul>
       <li v-for="art in articles" :key="art.id">
@@ -51,28 +47,25 @@ export default {
   methods: {
     getCategory() {
       this.category.id = this.$route.params.id;
-      this.$http
-        .get(`/category/${this.category.id}`)
-        .then((res) => {
-          this.category = res.data;
-        })
+
+      if (!this.category || !this.category.id) return
+
+      this.$http.get(`/category/${this.category.id}`)
+        .then((res) => { this.category = res.data; })
         .catch((e) => {
           this.$router.push("/");
           setTimeout(() => this.$showError(e), 500);
         });
     },
     getArticles() {
-      this.$http
-        .get(
-          `/article/byCategoryId/${this.category.id}?page=${this.page}&count=3`
-        )
-        .then((res) => {
-          this.articles = this.articles.concat(res.data.data);
-          this.page++;
+      if (!this.category || !this.category.id) return
 
-          if (res.data.data.length === 0) this.loadMore = false;
-        })
-        .catch((e) => this.$showError(e));
+      this.$http.get(`/article/byCategoryId/${this.category.id}?page=${this.page}&count=3`).then((res) => {
+        this.articles = this.articles.concat(res.data.data);
+        this.page++;
+
+        if (res.data.data.length === 0) this.loadMore = false;
+      }).catch((e) => this.$showError(e));
     },
   },
   mounted() {

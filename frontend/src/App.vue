@@ -2,8 +2,8 @@
   <div id="main" :class="{ 'hide-menu': !isMenuVisible || !user }">
     <CustomHeader title="Cod3r - Base de Conhecimento" :hideToggle="!user" :hideUserDropdown="!user" />
     <CustomMenu v-if="user" />
-    <Loading v-if="validatingToken"/>
-    <CustomContent v-else/>
+    <Loading v-if="validatingToken" />
+    <CustomContent v-else />
     <CustomFooter />
   </div>
 </template>
@@ -17,8 +17,8 @@ import Loading from "@/components/template/Loading.vue"
 import { mapState } from "vuex";
 
 export default {
-  inject: ["$http", "$userKey"],
-  created(){
+  inject: ["$http", "$userKey", "$showError"],
+  created() {
     this.validateToken()
   },
   data() {
@@ -37,32 +37,32 @@ export default {
     ...mapState(["isMenuVisible", "user"]),
   },
   methods: {
-    async validateToken() {
+    validateToken() {
       this.validatingToken = true
 
       const json = localStorage.getItem(this.$userKey)
       const userData = JSON.parse(json)
       this.$store.commit('setUser', null)
 
-      if(!userData) {
+      if (!userData) {
         this.validatingToken = false
         this.$router.push("/auth")
         return
       }
-      
-      const res = await this.$http.post('/oauth/validateToken', userData)
 
-      if(res.data) {
-        userData.token = res.data
-        this.$store.commit('setUser', userData)
-        this.$http.defaults.headers.common["Authorization"] = `${userData.scheme} ${userData.token}`;
-        this.$router.push("/")
+      this.$http.post('/oauth/validateToken', userData)
+        .then(() => {
+          this.$store.commit('setUser', userData)
+          this.$http.defaults.headers.common["Authorization"] = `${userData.scheme} ${userData.token}`;
+          this.$router.push("/")
+        })
+        .catch(err => {
+          this.$showError(err)
+          localStorage.removeItem(this.$userKey)
+          delete this.$http.defaults.headers.common["Authorization"];
+          this.$router.push("/auth")
+        })
 
-      } else {
-        localStorage.removeItem(this.$userKey)
-        delete this.$http.defaults.headers.common["Authorization"];
-        this.$router.push("/auth")
-      }
 
       this.validatingToken = false
     }

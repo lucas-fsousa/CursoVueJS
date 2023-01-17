@@ -16,7 +16,7 @@ import {
   faEdit,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { baseApiUrl, showError, showSuccess, showMessage, userKey } from "./global";
+import { baseApiUrl, showError, showSuccess, showMessage, userKey, axiosError, axiosSuccess } from "./global";
 import { QuillEditor } from "@vueup/vue-quill";
 import App from "./App.vue";
 import router from "./router";
@@ -47,6 +47,8 @@ const app = createApp(App);
 const http = axios.create({
   baseURL: baseApiUrl,
 });
+
+http.interceptors.response.use(axiosSuccess, axiosError)
 
 // INJECTION
 app
