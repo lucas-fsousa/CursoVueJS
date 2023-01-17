@@ -27,7 +27,9 @@ export default {
     ArticleItem,
   },
   watch: {
-    $route(to) {
+    $route(to, from) {
+      if(to.name !== from.name) return
+
       this.category.id = to.params.id;
       this.articles = [];
       this.page = 1;
@@ -53,7 +55,7 @@ export default {
       this.$http.get(`/category/${this.category.id}`)
         .then((res) => { this.category = res.data; })
         .catch((e) => {
-          this.$router.push("/");
+          this.$router.push({name: 'home'});
           setTimeout(() => this.$showError(e), 500);
         });
     },

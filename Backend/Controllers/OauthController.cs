@@ -50,7 +50,7 @@ namespace Backend.LastProject.Controllers {
             new("id", user.Id.AsString()), 
             user.Admin? new("admin", user.Admin.AsString(), ClaimValueTypes.Boolean) : null
           };
-          var bearerToken = _tokenService.Generate(claims, Key.GetSecret(), DateTime.UtcNow.AddSeconds(15));
+          var bearerToken = _tokenService.Generate(claims, Key.GetSecret(), DateTime.UtcNow.AddHours(8));
 
           return Ok(new {Token = bearerToken, Scheme = "Bearer", RequestOn = DateTime.Now, user.Id, user.Admin, user.Name, user.Email });
         } catch(Exception ex) {

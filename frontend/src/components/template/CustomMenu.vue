@@ -41,7 +41,7 @@ export default {
   inject: ["$http"],
   methods: {
     getData() {
-      return this.$http.get("/tree").then((res) => res.data);
+      return this.$http.get("/category").then((res) => res.data);
     },
   },
 };

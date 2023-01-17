@@ -55,16 +55,15 @@ export default {
           this.$store.commit('setUser', userData)
           this.$http.defaults.headers.common["Authorization"] = `${userData.scheme} ${userData.token}`;
           this.$router.push("/")
+          this.validatingToken = false
         })
         .catch(err => {
           this.$showError(err)
           localStorage.removeItem(this.$userKey)
           delete this.$http.defaults.headers.common["Authorization"];
           this.$router.push("/auth")
+          this.validatingToken = false
         })
-
-
-      this.validatingToken = false
     }
   }
 };
