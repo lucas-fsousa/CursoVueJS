@@ -22,17 +22,17 @@ import MenuTree from "@/components/MenuTree.vue";
 import { mapState } from "vuex";
 export default {
   components: {
-    MenuTree
+    MenuTree,
   },
   watch: {
-    currentMenuFilter(newValue, oldValue){
+    currentMenuFilter(newValue, oldValue) {
       this.$store.commit("updateMenuFilter", newValue);
-    }
+    },
   },
   data() {
     return {
       treeData: this.getData(),
-      currentMenuFilter: ''
+      currentMenuFilter: "",
     };
   },
   computed: {

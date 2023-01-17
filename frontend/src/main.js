@@ -16,7 +16,7 @@ import {
   faEdit,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { baseApiUrl, showError, showSuccess, showMessage } from "./global";
+import { baseApiUrl, showError, showSuccess, showMessage, userKey } from "./global";
 import { QuillEditor } from "@vueup/vue-quill";
 import App from "./App.vue";
 import router from "./router";
@@ -46,11 +46,6 @@ library.add(
 const app = createApp(App);
 const http = axios.create({
   baseURL: baseApiUrl,
-  //temp header
-  headers: {
-    authorization:
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtIiwiaWQiOiI1IiwiYWRtaW4iOnRydWUsIm5iZiI6MTY3MzY2MzYxMCwiZXhwIjoxNjc0MjY4NDEwLCJpYXQiOjE2NzM2NjM2MTB9.w8mNsDgXYV_jThMOBXc0f-YwB0CKkeB43S4fj1C4_b0",
-  },
 });
 
 // INJECTION
@@ -58,7 +53,8 @@ app
   .provide("$http", http)
   .provide("$showError", showError)
   .provide("$showSuccess", showSuccess)
-  .provide("$showMessage", showMessage);
+  .provide("$showMessage", showMessage)
+  .provide("$userKey", userKey)
 
 // USING
 app.use(store).use(router);

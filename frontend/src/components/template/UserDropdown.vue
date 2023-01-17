@@ -8,13 +8,8 @@
       <font-awesome-icon icon="fa-solid fa-arrow-down" />
     </div>
     <div class="user-dropdown-content">
-      <router-link to="/admin"
-        ><font-awesome-icon icon="fa-solid fa-cogs" />
-        Administração</router-link
-      >
-      <router-link to="/"
-        ><font-awesome-icon icon="fa-solid fa-sign-out" /> Sair</router-link
-      >
+      <router-link to="/admin" v-if="user.admin"><font-awesome-icon icon="fa-solid fa-cogs" />Administração</router-link>
+      <a href @click.prevent="logout"><font-awesome-icon icon="fa-solid fa-sign-out"/>Sair</a>
     </div>
   </div>
 </template>
@@ -22,9 +17,18 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  inject: ["$userKey", "$http"],
   computed: {
     ...mapState(["user"]),
   },
+  methods: {
+    logout(){
+      localStorage.removeItem(this.$userKey)
+      this.$store.commit('setUser', null)
+      delete this.$http.defaults.headers.common["Authorization"];
+      this.$router.push('/auth')
+    }
+  }
 };
 </script>
 

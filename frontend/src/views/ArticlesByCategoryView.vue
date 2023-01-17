@@ -1,6 +1,10 @@
 <template>
   <div class="article-by-category">
-    <PageTitle :main="category.name" sub="Categoria" icon="fa-solid fa-folder-blank" />
+    <PageTitle
+      :main="category.name"
+      sub="Categoria"
+      icon="fa-solid fa-folder-blank"
+    />
 
     <ul>
       <li v-for="art in articles" :key="art.id">
@@ -28,25 +32,25 @@ export default {
   },
   watch: {
     $route(to) {
-      this.category.id = to.params.id
-      this.articles = []
-      this.page = 1
-      this.loadMore = true
+      this.category.id = to.params.id;
+      this.articles = [];
+      this.page = 1;
+      this.loadMore = true;
       this.getCategory();
       this.getArticles();
-    }
+    },
   },
   data() {
     return {
       category: {},
       articles: [],
       page: 1,
-      loadMore: true
+      loadMore: true,
     };
   },
   methods: {
     getCategory() {
-      this.category.id = this.$route.params.id
+      this.category.id = this.$route.params.id;
       this.$http
         .get(`/category/${this.category.id}`)
         .then((res) => {
@@ -58,7 +62,10 @@ export default {
         });
     },
     getArticles() {
-      this.$http.get(`/article/byCategoryId/${this.category.id}?page=${this.page}&count=3`)
+      this.$http
+        .get(
+          `/article/byCategoryId/${this.category.id}?page=${this.page}&count=3`
+        )
         .then((res) => {
           this.articles = this.articles.concat(res.data.data);
           this.page++;
@@ -71,7 +78,7 @@ export default {
   mounted() {
     this.getCategory();
     this.getArticles();
-  }
+  },
 };
 </script>
 

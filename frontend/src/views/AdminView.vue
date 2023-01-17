@@ -90,11 +90,12 @@ import CategoryAdmin from "@/components/CategoryAdmin.vue";
 import UserAdmin from "@/components/UserAdmin.vue";
 
 export default {
+  inject: ["$showError"],
   components: {
     ArticleAdmin,
     CategoryAdmin,
     UserAdmin,
-  },
+  }
 };
 </script>
 

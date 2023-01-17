@@ -46,5 +46,6 @@ const showSuccess = (e, options) => {
 
 export { showError, showSuccess, showMessage };
 
-// URL CONFIGURATION
+// CONSTS CONFIGURATION
 export const baseApiUrl = "https://localhost:7194";
+export const userKey = "__knowledge_user";

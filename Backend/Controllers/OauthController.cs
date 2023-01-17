@@ -18,6 +18,19 @@ namespace Backend.LastProject.Controllers {
       _tokenService = tokenService;
     }
 
+    [HttpPost, Route("validateToken")]
+    public async Task<IActionResult> RefreshToken([FromBody] TokenInputValidate jsonToken) {
+      return await Task.Run(IActionResult() => {
+        if(!jsonToken.IsFilled())
+          return BadRequest("Invalid Token");
+
+        if(_tokenService.IsValidToken(jsonToken.Token))
+          return Ok(_tokenService.Refresh(jsonToken.Token, Key.GetSecret()));
+
+        return BadRequest("Token invalid or expired");
+      });
+    }
+
     [HttpPost, Route("signin")]
     public async Task<IActionResult> SignIn([FromBody] InputLogin inputLogin) {
       return await Task.Run(async Task<IActionResult> () => {
@@ -39,7 +52,7 @@ namespace Backend.LastProject.Controllers {
           };
           var bearerToken = _tokenService.Generate(claims, Key.GetSecret(), DateTime.Now.AddDays(7));
 
-          return Ok(new {Token = bearerToken, Scheme = "Bearer", RequestOn = DateTime.Now });
+          return Ok(new {Token = bearerToken, Scheme = "Bearer", RequestOn = DateTime.Now, user.Id, user.Admin, user.Name, user.Email });
         } catch(Exception ex) {
           return InternalError(ex.Message);
         }

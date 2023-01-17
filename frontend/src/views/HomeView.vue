@@ -46,7 +46,7 @@ export default {
       this.$http.get("/stat").then((response) => {
         this.stat = response.data;
       });
-    },
+    }
   },
   mounted() {
     this.getStats();

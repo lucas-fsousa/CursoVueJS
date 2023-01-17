@@ -1,12 +1,9 @@
 <template>
-  <div id="main" :class="{ 'hide-menu': !isMenuVisible }">
-    <CustomHeader
-      title="Cod3r - Base de Conhecimento"
-      :hideToggle="false"
-      :hideUserDropdown="false"
-    />
-    <CustomMenu />
-    <CustomContent />
+  <div id="main" :class="{ 'hide-menu': !isMenuVisible || !user }">
+    <CustomHeader title="Cod3r - Base de Conhecimento" :hideToggle="!user" :hideUserDropdown="!user" />
+    <CustomMenu v-if="user" />
+    <Loading v-if="validatingToken"/>
+    <CustomContent v-else/>
     <CustomFooter />
   </div>
 </template>
@@ -16,18 +13,60 @@ import CustomContent from "@/components/template/CustomContent.vue";
 import CustomFooter from "@/components/template/CustomFooter.vue";
 import CustomHeader from "@/components/template/CustomHeader.vue";
 import CustomMenu from "@/components/template/CustomMenu.vue";
+import Loading from "@/components/template/Loading.vue"
 import { mapState } from "vuex";
 
 export default {
+  inject: ["$http", "$userKey"],
+  created(){
+    this.validateToken()
+  },
+  data() {
+    return {
+      validatingToken: true
+    }
+  },
   components: {
     CustomContent,
     CustomFooter,
     CustomHeader,
     CustomMenu,
+    Loading
   },
   computed: {
-    ...mapState(["isMenuVisible"]),
+    ...mapState(["isMenuVisible", "user"]),
   },
+  methods: {
+    async validateToken() {
+      this.validatingToken = true
+
+      const json = localStorage.getItem(this.$userKey)
+      const userData = JSON.parse(json)
+      this.$store.commit('setUser', null)
+
+      if(!userData) {
+        this.validatingToken = false
+        this.$router.push("/auth")
+        return
+      }
+      
+      const res = await this.$http.post('/oauth/validateToken', userData)
+
+      if(res.data) {
+        userData.token = res.data
+        this.$store.commit('setUser', userData)
+        this.$http.defaults.headers.common["Authorization"] = `${userData.scheme} ${userData.token}`;
+        this.$router.push("/")
+
+      } else {
+        localStorage.removeItem(this.$userKey)
+        delete this.$http.defaults.headers.common["Authorization"];
+        this.$router.push("/auth")
+      }
+
+      this.validatingToken = false
+    }
+  }
 };
 </script>
 
@@ -54,6 +93,7 @@ body {
     "menu content"
     "menu footer";
 }
+
 #main.hide-menu {
   grid-template-areas:
     "header header"
